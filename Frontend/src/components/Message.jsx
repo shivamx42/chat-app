@@ -20,7 +20,6 @@ export default function Message({ message }) {
   const chatClassName = sentByUser ? "flex-end" : "flex-start";
   const profilePic = sentByUser?authUser.profilePic: selectedConversation.profilePic; 
   const bubbleBgColor = sentByUser ? 'blue' : 'grey';
-  const shakeClass = message.shouldShake ? 'shake' : '';
 
   return (
     <Box sx={{ display: 'flex', flexDirection: chatClassName, mb: 2 }}>
@@ -35,7 +34,6 @@ export default function Message({ message }) {
           mr: sentByUser ? 1 : 'auto',
           maxWidth: '60%',
           wordBreak: 'break-word',
-          animation: shakeClass ? 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both' : 'none',
         }}
       >
         {message.message}

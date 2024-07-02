@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 import { decrypt, encrypt } from "../utils/crypto.js";
 
 export const sendMessage=async (req,res)=>{
@@ -34,9 +35,16 @@ export const sendMessage=async (req,res)=>{
             ...newMessage._doc,
             message: decrypt({ iv: newMessage.iv, content: newMessage.message })
         };
+
+        const receiverSocketId = getReceiverSocketId(receiverId);
+		if (receiverSocketId) {
+			io.to(receiverSocketId).emit("newMessage", decryptedMessage);
+		}
+
         return res.status(200).json(decryptedMessage);
 
     } catch (error) {
+        console.log(error.message);
         return res.status(500).json({message: "Internal Server Error!"});
     }
 }

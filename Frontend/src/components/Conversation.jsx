@@ -1,12 +1,15 @@
 import React from 'react';
-import { Avatar, Box, Typography, Divider } from '@mui/material';
+import { Avatar, Box, Typography, Divider, Badge } from '@mui/material';
 import useConversation from '../zustand/useConversation';
+import { useSocketContext } from '../context/SocketContext';
 
 export default function Conversation({conversation}) {
 
   const{selectedConversation,setSelectedConversation}=useConversation();
 
   const selected=selectedConversation?._id===conversation._id;
+  const { onlineUsers } = useSocketContext();
+  const isOnline = onlineUsers.includes(conversation._id);
 
   return (
     <>
@@ -25,10 +28,20 @@ export default function Conversation({conversation}) {
           cursor: 'pointer',
         }}
       >
-        <Avatar
-          src={conversation.profilePic}
-          sx={{ width: 36, height: 36 }}
-        />
+
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              variant="dot"
+              color="success"
+              invisible={!isOnline}
+            >
+              <Avatar
+                src={conversation.profilePic}
+                sx={{ width: 36, height: 36 }}
+              />
+            </Badge>
+
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 3 }}>
             <Typography variant='body1' fontWeight='bold' color='text.secondary'>

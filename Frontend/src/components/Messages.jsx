@@ -3,11 +3,13 @@ import Message from './Message';
 import { Box } from '@mui/material';
 import useConversation from '../zustand/useConversation';
 import toast, { Toaster } from 'react-hot-toast';
+import useSocket from '../hooks/useSocket';
 
 
 export default function Messages() {
 
   const { messages, setMessages, selectedConversation } = useConversation();
+  useSocket();
 
 	useEffect(() => {
 		const getMessages = async () => {
