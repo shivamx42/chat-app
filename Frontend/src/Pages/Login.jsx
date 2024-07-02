@@ -3,7 +3,7 @@ import { TextField, Button, Box, Typography, Link } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
 
 const createCustomTheme = (primaryColor) =>
   createTheme({
@@ -20,7 +20,7 @@ const theme = createCustomTheme('#dd223f');
 export default function Login() {
 
   const [data,setData]=useState({});
-  const navigate=useNavigate();
+	const {setAuthUser}=useAuthContext();
   
   const handleChange=(e)=>{
       setData({
@@ -29,23 +29,31 @@ export default function Login() {
       });
   
   }
-
-  const notifyFailure = (msg) => toast.error(msg);
   
   const handleSubmit=async (e)=>{
-    e.preventDefault();
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-      });
-      const resData = await res.json();
 
-      if(res.status===200) navigate("/");
+    try {
+      e.preventDefault();
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        });
+        const resData = await res.json();
+  
+        if(res.status===200){
+          localStorage.setItem("user",JSON.stringify(resData.userData))
+          setAuthUser(data);
+        }
+  
+        else toast.error(resData.message);
+      
+    } catch (error) {
+      toast.error(error.message);
+    }
 
-      else notifyFailure(resData.message);
   }
 
   return (

@@ -23,8 +23,8 @@ export const register=async (req,res)=>{
         
         const hashedPassword=bcryptjs.hashSync(password,10);
 
-        const malePic="https://avatar.iran.liara.run/public/boy";
-        const femalePic="https://avatar.iran.liara.run/public/girl";
+        const malePic=`https://avatar.iran.liara.run/public/boy?username=${username}`;
+        const femalePic=`https://avatar.iran.liara.run/public/girl?username=${username}`;
 
         const newUser= new User({name,username,password: hashedPassword,gender,
             profilePic: gender==="male"?malePic:femalePic

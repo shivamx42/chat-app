@@ -1,9 +1,16 @@
 import React from 'react';
 import { Avatar, Box, Typography, Divider } from '@mui/material';
+import useConversation from '../zustand/useConversation';
 
-export default function Conversation() {
+export default function Conversation({conversation}) {
+
+  const{selectedConversation,setSelectedConversation}=useConversation();
+
+  const selected=selectedConversation?._id===conversation._id;
+
   return (
     <>
+    <div onClick={()=>setSelectedConversation(conversation)} className={`${selected?"bg-[#87CEEB]":""}`}>
       <Box
         sx={{
           display: 'flex',
@@ -14,24 +21,23 @@ export default function Conversation() {
           },
           borderRadius: 1,
           p: 2,
-          py: 1,
+          py: 2,
           cursor: 'pointer',
         }}
       >
         <Avatar
-          src='https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png'
-          alt='user avatar'
-          sx={{ width: 48, height: 48 }}
+          src={conversation.profilePic}
+          sx={{ width: 36, height: 36 }}
         />
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 3 }}>
             <Typography variant='body1' fontWeight='bold' color='text.secondary'>
-              John Doe
+              {conversation.username}
             </Typography>
-            <Typography variant='h6'>🎃</Typography>
           </Box>
         </Box>
       </Box>
+    </div>
       <Divider sx={{ my: 0, py: 0 }} />
     </>
   );

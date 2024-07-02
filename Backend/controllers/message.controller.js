@@ -30,7 +30,11 @@ export const sendMessage=async (req,res)=>{
 
         await Promise.all([conversation.save(),newMessage.save()]);
 
-        return res.status(200).json(newMessage);
+        const decryptedMessage = {
+            ...newMessage._doc,
+            message: decrypt({ iv: newMessage.iv, content: newMessage.message })
+        };
+        return res.status(200).json(decryptedMessage);
 
     } catch (error) {
         return res.status(500).json({message: "Internal Server Error!"});

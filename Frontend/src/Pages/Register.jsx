@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, Link, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import { useAuthContext } from '../context/AuthContext';
 
 const createCustomTheme = (primaryColor) =>
   createTheme({
@@ -18,8 +19,8 @@ const theme = createCustomTheme('#dd223f');
 export default function Register() {
 	
 	const [data,setData]=useState({});
-	const navigate=useNavigate();
-    
+	const {setAuthUser}=useAuthContext();
+
     const handleChange=(e)=>{
         setData({
             ...data,
@@ -27,21 +28,28 @@ export default function Register() {
         });
     }
 
-	const notifyFailure = (msg) => toast.error(msg);
     const handleSubmit = async (e) => {
         e.preventDefault();
-		const res = await fetch('/api/auth/register', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		  });
-		  const resData = await res.json();
-
-		  if(res.status===201) navigate("/");
-
-		  else notifyFailure(resData.message);
+		try {
+			const res = await fetch('/api/auth/register', {
+				method: 'POST',
+				headers: {
+				  'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			  });
+			  const resData = await res.json();
+	
+			  if(res.status===201){
+				localStorage.setItem("user",JSON.stringify(resData.userData))
+				setAuthUser(data);
+				}
+	
+			  else toast.error(resData.message);
+			
+		} catch (error) {
+			toast.error(error.message);
+		}
     }
 
 
