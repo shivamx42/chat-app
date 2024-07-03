@@ -43,7 +43,7 @@ export default function Sidebar({setIsChatOpen}) {
       </Box>
       <button
       onClick={handleLogout}
-      className="flex items-center justify-center w-10 h-10 mx-auto bg-blue-300 text-gray-700 rounded-lg hover:bg-blue-400 focus:outline-none border border-gray-700"
+      className="flex items-center justify-center w-10 h-10 mx-auto bg-blue-300 text-gray-700 rounded-lg hover:bg-blue-400 focus:outline-none border border-gray-700 mt-5"
     >
       <MdOutlineLogout size={20} />
     </button>

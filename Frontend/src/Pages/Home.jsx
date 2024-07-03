@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <div className='flex flex-col md:flex-row'>
         <div 
-          className={` ${isChatOpen ? 'hidden md:block w-[200px]' : 'w-full md:w-[400px] '} ${isChatOpen ? 'md:border-r md:border-[#808080]' : ''}`} 
+          className={` ${isChatOpen ? 'hidden md:block w-[300px]' : 'w-full md:w-[400px] '} ${isChatOpen ? 'md:border-r md:border-[#808080]' : ''}`} 
         >
           <Sidebar setIsChatOpen={setIsChatOpen}/>
         </div>

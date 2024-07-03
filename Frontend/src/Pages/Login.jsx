@@ -20,7 +20,7 @@ const theme = createCustomTheme('#dd223f');
 export default function Login() {
 
   const [data,setData]=useState({});
-	const {setAuthUser}=useAuthContext();
+	const {authUser,setAuthUser}=useAuthContext();
   
   const handleChange=(e)=>{
       setData({
@@ -45,11 +45,11 @@ export default function Login() {
   
         if(res.status===200){
           localStorage.setItem("user",JSON.stringify(resData.userData))
-          setAuthUser(data);
+          setAuthUser(resData.userData);
         }
-  
+        
         else toast.error(resData.message);
-      
+        
     } catch (error) {
       toast.error(error.message);
     }

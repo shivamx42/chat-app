@@ -42,7 +42,7 @@ export default function Register() {
 	
 			  if(res.status===201){
 				localStorage.setItem("user",JSON.stringify(resData.userData))
-				setAuthUser(data);
+				setAuthUser(resData.userData);
 				}
 	
 			  else toast.error(resData.message);
