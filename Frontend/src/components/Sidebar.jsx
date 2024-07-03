@@ -1,12 +1,14 @@
 import React from 'react';
 import Conversations from './Conversations';
 import SearchInput from './SearchInput';
-import { Box, Divider, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { FiLogOut } from 'react-icons/fi';
+import { MdOutlineLogout } from "react-icons/md";
+
 import { useAuthContext } from '../context/AuthContext';
 
 
-export default function Sidebar() {
+export default function Sidebar({setIsChatOpen}) {
 
   const {setAuthUser}=useAuthContext();
 
@@ -28,20 +30,23 @@ export default function Sidebar() {
   }
 
   return (
-    <Box sx={{ borderRight: 1, borderColor: 'divider', p: 4, display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <Box sx={{ px:2 , py:5 ,display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <SearchInput />
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
-        <Conversations />
+      <Box sx={{ 
+          flex: 1, 
+          overflow: 'auto',
+          scrollbarWidth: 'none',
+        }}>
+        <div onClick={() => setIsChatOpen(true)}>
+          <Conversations />
+        </div>
       </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<FiLogOut />}
-        sx={{ mt: 3 }}
-        onClick={handleLogout}
-      >
-        Logout
-      </Button>
+      <button
+      onClick={handleLogout}
+      className="flex items-center justify-center w-10 h-10 mx-auto bg-blue-300 text-gray-700 rounded-lg hover:bg-blue-400 focus:outline-none border border-gray-700"
+    >
+      <MdOutlineLogout size={20} />
+    </button>
     </Box>
   );
 }

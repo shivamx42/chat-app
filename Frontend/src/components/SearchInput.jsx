@@ -43,10 +43,10 @@ export default function SearchInput() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!search) return;
-		if (search.length < 3) {
-      return toast.error("Search term must be at least 3 characters long");
-		}
+    if (!search){
+      toast.error("Type atleast one character!");
+      return;
+    }
     
 		const conversation = conversations.find((c) => c.username.toLowerCase().includes(search.toLowerCase()));
 
@@ -64,7 +64,7 @@ export default function SearchInput() {
           <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <TextField
               id="search"
-              label="Search"
+              label="Search Users..."
               variant="outlined"
               margin="normal"
               fullWidth
@@ -89,9 +89,10 @@ export default function SearchInput() {
               }}
               onChange={(e)=>setSearch(e.target.value)}
           />
-          <IconButton type="submit" color="primary" sx={{ backgroundColor: 'skyblue' }}>
-              <IoSearchSharp className='w-6 h-6' />
-          </IconButton>
+          <div>
+              <IoSearchSharp className='w-5 h-5 text-blue-800 hover:cursor-pointer mt-3' onClick={handleSubmit} />
+          </div>
+          
           </Box>
       </ThemeProvider>
     </>

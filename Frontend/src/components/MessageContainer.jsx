@@ -15,15 +15,18 @@ export default function MessageContainer() {
   )
 
   return (
-    <Box sx={{ minWidth: '450px', display: 'flex', flexDirection: 'column', my:5,mx:2 }}>
-      <Box sx={{ px: 4, py: 2, mb: 2 }}>
+    <div className='w-full md:w-[450px]'>
+    <Box sx={{ display: 'flex', flexDirection: 'column',height:'100vh', mx:3 }}>
+      <Box sx={{ px: 4, py: 8, mb: 2 }}>
         <Typography variant="body1">
           <span className="label-text text-gray-500">To :</span> <span className="text-gray-700 font-bold">{selectedConversation.name}</span>
         </Typography>
-      <Divider sx={{ my: 3, py: 0 , borderBottomWidth:2 , borderColor:'gray'}} />
+      <Divider sx={{ my: 3 , borderBottomWidth:2 , borderColor:'gray'}} />
       </Box>
       <Messages />
       <MessageInput />
     </Box>
+
+    </div>
   );
 }
