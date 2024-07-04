@@ -2,6 +2,7 @@ import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+const expiry= 15 * 24 * 60 * 60 * 1000;
 
 export const register=async (req,res)=>{
     try {
@@ -36,7 +37,7 @@ export const register=async (req,res)=>{
         
         const token=jwt.sign({id: newUser._id, username: newUser.username},process.env.JWT_SECRET);
 
-        return res.cookie("token", token, { httpOnly: true }).status(201).json({message: "User Successfully Created!",userData})
+        return res.cookie("token", token, { httpOnly: true, maxAge: expiry }).status(201).json({message: "User Successfully Created!",userData})
 
     } catch (error) {
         console.log(error.message)
@@ -63,7 +64,7 @@ export const login=async(req,res)=>{
 
         const token=jwt.sign({id: user._id, username: user.username},process.env.JWT_SECRET);
 
-        return res.cookie("token", token, { httpOnly: true }).status(200).json({message: "Login Successful!",userData})
+        return res.cookie("token", token, { httpOnly: true, maxAge: expiry }).status(200).json({message: "Login Successful!",userData})
 
     } catch (error) {
         return res.status(500).json({message: "Internal Server Error!"});

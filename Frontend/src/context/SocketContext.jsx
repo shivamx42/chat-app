@@ -9,13 +9,14 @@ export const useSocketContext = () => {
 };
 
 export const SocketContextProvider = ({ children }) => {
+	const url=import.meta.env.VITE_SITE_URL;
 	const [socket, setSocket] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const { authUser } = useAuthContext();
 
 	useEffect(() => {
 		if (authUser) {
-			const socket = io("https://chatterbox-7vxm.onrender.com/", {
+			const socket = io(url, {
 				query: {
 					userId: authUser._id,
 				},
