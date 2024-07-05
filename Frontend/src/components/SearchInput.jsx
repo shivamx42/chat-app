@@ -16,7 +16,7 @@ const createCustomTheme = (primaryColor) =>
   
 const theme = createCustomTheme('#dd223f');
 
-export default function SearchInput() {
+export default function SearchInput({setIsChatOpen}) {
 
   const [conversations, setConversations] = useState([]);
 
@@ -52,6 +52,7 @@ export default function SearchInput() {
 
 		if (conversation) {
 			setSelectedConversation(conversation);
+      setIsChatOpen(true);
 			setSearch("");
 		} else toast.error("No such user found!");
   };

@@ -2,9 +2,7 @@ import React from 'react';
 import Conversations from './Conversations';
 import SearchInput from './SearchInput';
 import { Box, Button } from '@mui/material';
-import { FiLogOut } from 'react-icons/fi';
 import { MdOutlineLogout } from "react-icons/md";
-
 import { useAuthContext } from '../context/AuthContext';
 
 
@@ -17,7 +15,6 @@ export default function Sidebar({setIsChatOpen}) {
 
     try {
       const res = await fetch('/api/auth/logout');
-      const data = await res.json();
 
       if(res.status===200){
         localStorage.removeItem("user");
@@ -31,7 +28,7 @@ export default function Sidebar({setIsChatOpen}) {
 
   return (
     <Box sx={{ px:2 , py:5 ,display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <SearchInput />
+      <SearchInput setIsChatOpen={setIsChatOpen}/>
       <Box sx={{ 
           flex: 1, 
           overflow: 'auto',

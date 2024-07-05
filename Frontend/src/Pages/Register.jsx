@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuthContext } from '../context/AuthContext';
+import AccountLoader from '../components/Loaders/AccountLoader';
 
 const createCustomTheme = (primaryColor) =>
   createTheme({
@@ -20,6 +21,7 @@ export default function Register() {
 	
 	const [data,setData]=useState({});
 	const {setAuthUser}=useAuthContext();
+	const [loading,setLoading]=useState(false);
 
     const handleChange=(e)=>{
         setData({
@@ -30,6 +32,7 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+		setLoading(true);
 		try {
 			const res = await fetch('/api/auth/register', {
 				method: 'POST',
@@ -46,10 +49,11 @@ export default function Register() {
 				}
 	
 			  else toast.error(resData.message);
-			
-		} catch (error) {
-			toast.error(error.message);
-		}
+			} catch (error) {
+				toast.error(error.message);
+			}finally{
+				setLoading(false);
+			}
     }
 
 
@@ -180,22 +184,30 @@ export default function Register() {
 									<MenuItem value="female">Female</MenuItem>
 								</Select>
 							</FormControl>
-							<Button
-								type="submit"
-								variant="contained"
-								color="primary"
-								fullWidth
-								sx={{ mt: 3, mb: 2 }}
-							>
-								Register
-							</Button>
+							{
+								loading?<AccountLoader/>:(
+
+								<Button
+									type="submit"
+									variant="contained"
+									color="primary"
+									fullWidth
+									sx={{ mt: 3, mb: 2 }}
+								>
+									Register
+								</Button>
+								)
+							}
 						</Box>
-						<Typography variant="body2" textAlign="center" color="#000000">
-							Already have an account?{' '}
-							<Link component={RouterLink} to="/login" color="primary">
-								Login
-							</Link>
-						</Typography>
+						{
+							!loading && (<Typography variant="body2" textAlign="center" color="#000000">
+								Already have an account?{' '}
+								<Link component={RouterLink} to="/login" color="primary">
+									Login
+								</Link>
+							</Typography>)
+						}
+						
 					</Box>
 				</Box>
 			</ThemeProvider>

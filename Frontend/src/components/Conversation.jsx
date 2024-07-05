@@ -13,7 +13,7 @@ export default function Conversation({conversation}) {
 
   return (
     <>
-    <div onClick={()=>setSelectedConversation(conversation)} className={`${selected?"bg-[#87CEEB]":""}`}>
+    <div onClick={()=>setSelectedConversation(conversation)} className={`${selected?"md:bg-[#87CEEB]":""}`}>
       <Box
         sx={{
           display: 'flex',
